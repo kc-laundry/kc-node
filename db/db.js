@@ -1,5 +1,6 @@
 // Bring Mongoose into the app
 var mongoose = require( 'mongoose' );
+mongoose.set('debug', true);
 
 // Build the connection string
 var dbURI = 'mongodb://localhost/kc-laundry';

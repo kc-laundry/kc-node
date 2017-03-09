@@ -14,7 +14,7 @@ var mongoose = require('mongoose')
 // Schema
 //////////////////////////
 
-var orderSchema = Schema({
+var workerSchema = Schema({
 
 });
 
@@ -23,5 +23,5 @@ var orderSchema = Schema({
 // Export Schema
 //////////////////////////
 
-var Order = mongoose.model('Order',orderSchema,'orders');
-module.exports.Order = Order;
+var Worker = mongoose.model('Worker',workerSchema,'workers');
+module.exports.Worker = Worker;
