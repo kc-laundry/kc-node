@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 
 var commonValidator = require('../validators/common.validator');
 var uuid = require('uuid'); // https://github.com/defunctzombie/node-uuid
+var moment = require('moment');
 
 // Models
 var Order = require('../models/order.model').Order;
@@ -23,9 +24,16 @@ module.exports ={
 
     getOrders : function (page,callback) {
 
+        var isValidPagination = commonValidator.validatePagination(page);
+
+        if(isValidPagination){
+            Order.find({},callback).skip(parseInt(page.offset)).limit(parseInt(page.limit));
+        }
+
     },
     getOrder : function (orderID,callback) {
-
+        var query = { _id: orderID};
+        Order.findOne(query,callback);
     },
 
     // //////////////////
@@ -44,6 +52,25 @@ module.exports ={
 
     },
     preGenerateOrder : function (callback) {
+
+        var query = {
+            "status" : [],
+            "expectedDeliveryDate" : moment().utc().add('days',3),
+            "totalAmount" : 2,
+            "paidAmount" : 0,
+            "isActive" : true,
+            "details":{
+                "laundryItems" : [ ],
+                "services" : [ ],
+                "location" : {
+                    "pickup" : "",
+                    "dropoff" : ""
+                }
+            }
+
+        };
+
+        Order.create(query,callback);
 
     }
 

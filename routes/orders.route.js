@@ -29,17 +29,24 @@ var orderService = require('../services/orders.service');
 
     router.get('/', function(req, res, next) {
 
-        var orders = [
-            {
-                id:1
-            },
-            {
-                id:2
-            }
-        ];
+        //First 25 records as default
+        var defaultLimit = {
+            "offset": 0,
+            "limit": 25
+        };
 
-        res.send({
-            data: orders
+        var page = Object.keys(req.query).length?req.query:defaultLimit;
+
+        orderService.getOrders(page, function (err,orders) {
+            if(err){
+                throw err;
+            }
+
+            res.json({
+                href:req.hostname + ":" + config.port + req.originalUrl,
+                data:orders
+            })
+
         });
 
     });
@@ -54,13 +61,41 @@ var orderService = require('../services/orders.service');
 
         router.get('/:ID', function(req, res, next) {
 
+            var orderID = req.params.ID;
+
+            orderService.getOrder(orderID,function (err,orders) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:orders
+                })
+
+            })
+
         });
 
         router.post('/:ID', function(req, res, next) {
 
+            var orderID = req.params.ID;
+
         });
 
         router.get('/pregen/order',function (req,res,next) {
+
+            orderService.preGenerateOrder(function (err,pregeneratedOrder) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:pregeneratedOrder
+                })
+
+            });
 
         });
 
@@ -68,6 +103,21 @@ var orderService = require('../services/orders.service');
         // Single Order  Focused Routes
         ///////////////////////
 
+        router.patch(':/ID/location', function (req, res, next) {
+
+        });
+
+        router.patch(':/ID/service', function (req, res, next) {
+
+        });
+
+        router.patch(':/ID/pickup', function (req, res, next) {
+
+        });
+
+        router.patch(':/ID/dropoff', function (req, res, next) {
+
+        });
 
 
 module.exports = router;

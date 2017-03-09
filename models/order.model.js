@@ -15,6 +15,55 @@ var mongoose = require('mongoose')
 //////////////////////////
 
 var orderSchema = Schema({
+    "userID" : {
+        type:ObjectId
+    },
+    "workerID" : {
+        type:ObjectId
+    },
+    "vendorID" : {
+        type:ObjectId
+    },
+    "status" : [
+        {
+            "date" : {
+                type:Date
+            },
+            "workerID" : {
+                type:ObjectId
+            },
+            "statusTypeID" : {
+                type:ObjectId
+            },
+            "message" : {
+                type:String
+            }
+        }
+    ],
+    "expectedDeliveryDate" : {
+        type:Date
+    },
+    "totalAmount" : {
+        type:Number
+    },
+    "paidAmount" : {
+        type:Number
+    },
+    "isActive" : {
+        type:Boolean
+    },
+    "details":{
+        "laundryItems" : [ {
+            type:ObjectId
+        }],
+        "services" : [ {
+            type:ObjectId
+        }],
+        "location" : {
+            "pickup" : String,
+            "dropoff" : String
+        }
+    }
 
 });
 
