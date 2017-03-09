@@ -72,6 +72,52 @@ module.exports ={
 
         Order.create(query,callback);
 
+    },
+
+    updateLaundryItems: function (orderID,laundryItems,callback) {
+
+        var query = {
+            _id:orderID
+        };
+
+        var update = { $set:{'details.laundryItems': laundryItems} };
+
+        StoryCategory.update(query,update,callback);
+
+    },
+    updateServiceDetails: function (orderID,services,callback) {
+
+        var query = {
+            _id:orderID
+        };
+
+        var update = { $push:{'details.services': services} };
+
+        StoryCategory.update(query,update,callback);
+
+    },
+    updatePickupDetails: function (orderID,pickupLocation,pickupWhen,callback) {
+
+        var query = {
+            _id:orderID
+        };
+
+        var update = { $set:{'details.pickup.location': pickupLocation,'details.pickup.when': pickupWhen}};
+
+        StoryCategory.update(query,update,callback);
+
+    },
+    updateDropoffDetails: function (orderID,dropoff,callback) {
+
+        var query = {
+            _id:orderID
+        };
+
+        var update = { $set:{'details.dropoff.location': pickupLocation,'details.dropoff.when': pickupWhen}};
+
+        StoryCategory.update(query,update,callback);
+
     }
+
 
 };

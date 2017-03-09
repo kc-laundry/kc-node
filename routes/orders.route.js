@@ -11,7 +11,7 @@ var router = express.Router();
 var mongoose  = require('mongoose');
 var config = require('../config/dev.config.json');
 var orderService = require('../services/orders.service');
-
+var _ = require('lodash');
 
 ///////////////////////
 // Variables
@@ -77,11 +77,6 @@ var orderService = require('../services/orders.service');
 
         });
 
-        router.post('/:ID', function(req, res, next) {
-
-            var orderID = req.params.ID;
-
-        });
 
         router.get('/pregen/order',function (req,res,next) {
 
@@ -103,20 +98,93 @@ var orderService = require('../services/orders.service');
         // Single Order  Focused Routes
         ///////////////////////
 
-        router.patch(':/ID/location', function (req, res, next) {
+        router.patch(':/ID/laundryItems', function (req, res, next) {
+
+            var orderID = req.params.ID;
+            var laundryItems = req.body.laundryItems;
+
+            if(!_.isArray(laundryItems)){
+                throw new Error('PATCH /orders/:/ID/laundryItems : laundyItems must be an array');
+            }
+
+            var incorrectStructure = false;
+            _.forEach(laundryItems,function (value,index) {
+               if(!value.name || value.rate || value.count){
+                incorrectStructure = true;
+               }
+            });
+            if(incorrectStructure){
+                throw new Error('PATCH /orders/:/ID/laundryItems : Each item in laundyItems array should have name, rate and countr property.');
+            }
+
+            orderService.updateLaundryItems(orderID,laundryItems,function (err,result) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:result
+                })
+
+            });
 
         });
 
         router.patch(':/ID/service', function (req, res, next) {
 
+            var orderID = req.params.ID;
+            var services = req.body.services;
+
+            orderService.updateServiceDetails(orderID,services,function (err,result) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:result
+                })
+
+            });
         });
 
         router.patch(':/ID/pickup', function (req, res, next) {
 
+            var orderID = req.params.ID;
+            var pickupLocation = req.body.pickupDetails.location;
+            var pickupWhen = req.body.pickupDetails.when;
+
+            orderService.updatePickupDetails(orderID,pickupLocation,pickupWhen,function (err,result) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:result
+                })
+
+            });
+
         });
 
         router.patch(':/ID/dropoff', function (req, res, next) {
+            var orderID = req.params.ID;
+            var dropoffLocation = req.body.dropoffDetails.location;
+            var dropoffWhen = req.body.dropoffDetails.when;
 
+            orderService.updatePickupDetails(orderID,dropoffLocation,dropoffWhen,function (err,result) {
+                if(err){
+                    throw err;
+                }
+
+                res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:result
+                })
+
+            });
         });
 
 

@@ -53,15 +53,17 @@ var orderSchema = Schema({
         type:Boolean
     },
     "details":{
-        "laundryItems" : [ {
-            type:ObjectId
-        }],
+        "laundryItems" : [],
         "services" : [ {
-            type:ObjectId
+            type:String
         }],
-        "location" : {
-            "pickup" : String,
-            "dropoff" : String
+        "pickup" : {
+            "location":String,
+            "when":Date
+        },
+        "dropoff" : {
+            "location":String,
+            "when":Date
         }
     }
 
