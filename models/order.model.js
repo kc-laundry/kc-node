@@ -58,12 +58,42 @@ var orderSchema = Schema({
             type:String
         }],
         "pickup" : {
-            "location":String,
-            "when":Date
+            "location":{
+                "lat":{
+                    type:String
+                },
+                "long":{
+                    type:String
+                },
+                "address":{
+                    type:String
+                }
+            },
+            "when":{
+                type:String
+            },
+            "instruction":{
+                type:String
+            }
         },
         "dropoff" : {
-            "location":String,
-            "when":Date
+            "location":{
+                "lat":{
+                    type:String
+                },
+                "long":{
+                    type:String
+                },
+                "address":{
+                    type:String
+                }
+            },
+            "when":{
+                type:String
+            },
+            "instruction":{
+                type:String
+            }
         }
     }
 

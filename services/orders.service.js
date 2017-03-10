@@ -76,46 +76,50 @@ module.exports ={
 
     updateLaundryItems: function (orderID,laundryItems,callback) {
 
+
         var query = {
             _id:orderID
         };
 
+
         var update = { $set:{'details.laundryItems': laundryItems} };
 
-        StoryCategory.update(query,update,callback);
+        Order.update(query,update,callback);
 
     },
+
     updateServiceDetails: function (orderID,services,callback) {
 
         var query = {
             _id:orderID
         };
 
-        var update = { $push:{'details.services': services} };
-
-        StoryCategory.update(query,update,callback);
+        var update = { $addToSet:{'details.services': {$each: services}} };
+        Order.update(query,update,callback);
 
     },
-    updatePickupDetails: function (orderID,pickupLocation,pickupWhen,callback) {
+    updatePickupDetails: function (orderID,pickupLocation,pickupWhen,pickupInstruction,callback) {
 
         var query = {
             _id:orderID
         };
 
-        var update = { $set:{'details.pickup.location': pickupLocation,'details.pickup.when': pickupWhen}};
+        console.log('orderID',orderID,'pickupLocation',pickupLocation,'pickupWhen',pickupWhen,'pickupInstruction',pickupInstruction);
 
-        StoryCategory.update(query,update,callback);
+        var update = { $set:{'details.pickup.location': pickupLocation,'details.pickup.when': pickupWhen, 'details.pickup.instruction': pickupInstruction}};
+
+        Order.update(query,update,callback);
 
     },
-    updateDropoffDetails: function (orderID,dropoff,callback) {
+    updateDropoffDetails: function (orderID,dropoffLocation,dropoffWhen,dropoffInstruction,callback) {
 
         var query = {
             _id:orderID
         };
 
-        var update = { $set:{'details.dropoff.location': pickupLocation,'details.dropoff.when': pickupWhen}};
+        var update = { $set:{'details.dropoff.location': dropoffLocation,'details.dropoff.when': dropoffWhen, 'details.dropoff.instruction': dropoffInstruction}};
 
-        StoryCategory.update(query,update,callback);
+        Order.update(query,update,callback);
 
     }
 

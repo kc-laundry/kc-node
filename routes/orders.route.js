@@ -10,6 +10,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose  = require('mongoose');
 var config = require('../config/dev.config.json');
+var utilService = require('../services/util.service');
 var orderService = require('../services/orders.service');
 var _ = require('lodash');
 
@@ -98,7 +99,7 @@ var _ = require('lodash');
         // Single Order  Focused Routes
         ///////////////////////
 
-        router.patch(':/ID/laundryItems', function (req, res, next) {
+        router.patch('/:ID/laundryItems', function (req, res, next) {
 
             var orderID = req.params.ID;
             var laundryItems = req.body.laundryItems;
@@ -107,14 +108,19 @@ var _ = require('lodash');
                 throw new Error('PATCH /orders/:/ID/laundryItems : laundyItems must be an array');
             }
 
+            var propertiesToCheck = ['name','rate','count','toWash','toDry'];
+
             var incorrectStructure = false;
-            _.forEach(laundryItems,function (value,index) {
-               if(!value.name || value.rate || value.count){
-                incorrectStructure = true;
-               }
-            });
+             _.forEach(laundryItems,function (item) {
+                 if(!utilService.hasKeysDefined(propertiesToCheck, item)){
+                     incorrectStructure  = true;
+                 }
+             });
+
             if(incorrectStructure){
-                throw new Error('PATCH /orders/:/ID/laundryItems : Each item in laundyItems array should have name, rate and countr property.');
+                throw new Error('PATCH /orders/:/ID/laundryItems : '
+                    + 'Each item in laundyItems array should have these properties define: '
+                                                        + propertiesToCheck.join());
             }
 
             orderService.updateLaundryItems(orderID,laundryItems,function (err,result) {
@@ -131,11 +137,10 @@ var _ = require('lodash');
 
         });
 
-        router.patch(':/ID/service', function (req, res, next) {
+        router.patch('/:ID/service', function (req, res, next) {
 
             var orderID = req.params.ID;
             var services = req.body.services;
-
             orderService.updateServiceDetails(orderID,services,function (err,result) {
                 if(err){
                     throw err;
@@ -149,13 +154,14 @@ var _ = require('lodash');
             });
         });
 
-        router.patch(':/ID/pickup', function (req, res, next) {
+        router.patch('/:ID/pickup', function (req, res, next) {
 
             var orderID = req.params.ID;
             var pickupLocation = req.body.pickupDetails.location;
             var pickupWhen = req.body.pickupDetails.when;
+            var pikcupInstruction = req.body.pickupDetails.instruction;
 
-            orderService.updatePickupDetails(orderID,pickupLocation,pickupWhen,function (err,result) {
+            orderService.updatePickupDetails(orderID,pickupLocation,pickupWhen,pikcupInstruction,function (err,result) {
                 if(err){
                     throw err;
                 }
@@ -169,12 +175,13 @@ var _ = require('lodash');
 
         });
 
-        router.patch(':/ID/dropoff', function (req, res, next) {
+        router.patch('/:ID/dropoff', function (req, res, next) {
             var orderID = req.params.ID;
             var dropoffLocation = req.body.dropoffDetails.location;
             var dropoffWhen = req.body.dropoffDetails.when;
+            var dropoffInstruction = req.body.dropoffDetails.instruction;
 
-            orderService.updatePickupDetails(orderID,dropoffLocation,dropoffWhen,function (err,result) {
+            orderService.updateDropoffDetails(orderID,dropoffLocation,dropoffWhen,dropoffInstruction,function (err,result) {
                 if(err){
                     throw err;
                 }
