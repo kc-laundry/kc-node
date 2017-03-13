@@ -5,9 +5,12 @@
 
 > GET http://localhost:3000/api/v1/orders
 
+
 > GET http://localhost:3000/api/v1/orders/:orderID
 
+
 > GET http://localhost:3000/api/v1/orders/pregen/order
+
 
 > PATCH : http://localhost:3000/api/v1/orders/:ID/laundryItems
 
@@ -31,7 +34,7 @@
 
 ```
 
-> PATCH : http://localhost:3000/api/v1/orders/:ID/services
+> PATCH : http://localhost:3000/api/v1/orders/:ID/service
 
 #####Body example
 
