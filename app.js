@@ -11,6 +11,7 @@ var index = require('./routes/index.route');
 var users = require('./routes/users.route');
 var orders = require('./routes/orders.route');
 var laundryItems = require('./routes/laundry-items.route');
+var appVersion = require('./routes/app-version.route');
 
 var app = express();
 var methodOverride = require('method-override');
@@ -48,6 +49,7 @@ app.use('/', index);
 app.use('/api/v1/orders', orders);
 app.use('/api/v1/users', users);
 app.use('/api/v1/laundryItems', laundryItems);
+app.use('/api/v1/appVersion', appVersion);
 
 
 // catch 404 and forward to error handler
