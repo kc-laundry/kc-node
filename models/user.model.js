@@ -14,8 +14,72 @@ var mongoose = require('mongoose')
 // Schema
 //////////////////////////
 
+var customerAddress = new Schema({
+    alias:{
+        type:String
+    },
+    address:{
+        type:String
+    },
+    lat:{
+        type:String
+    },
+    long:{
+        type:String
+    },
+    isActive:{
+        type:Boolean
+    }
+
+});
+
 var userSchema = Schema({
-    
+    firstName:{
+        type:String
+    },
+    middleName:{
+        type:String
+    },
+    lastName:{
+        type:String
+    },
+    userName:{
+        type:String
+    },
+    password:{
+        type:String
+    },
+    facebookName:{
+        type:String
+    },
+    contact:{
+        phone1:{
+            type:String
+        },
+        phone2:{
+            type:String
+        },
+        email1:{
+            type:String
+        },
+        email2:{
+            type:String
+        },
+        address:[customerAddress]
+    },
+    dob:{
+        type:String
+    },
+    customerLevel:{
+        type:String
+    },
+    customerType:{
+        type:String
+    },
+    isActive:{
+        type:Boolean
+    }
+
 });
 
 
