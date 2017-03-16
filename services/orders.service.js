@@ -36,6 +36,16 @@ module.exports ={
         Order.findOne(query,callback);
     },
 
+    getOrderByUser : function (userID,callback) {
+        var query = { userID: userID};
+        var projection ={
+            _id:1,
+            status:1,
+            expectedDeliveryDate:1
+        };
+        Order.findOne(query, projection, callback);
+    },
+
     // //////////////////
     // Admin Tool Only
     // //////////////////
@@ -121,7 +131,16 @@ module.exports ={
 
         Order.update(query,update,callback);
 
-    }
+    },
+    updateLaundryDrycleanInstruction: function (orderID,laundryInstruction,drycleanInstruction, callback) {
 
+        var query ={
+            _id:orderID
+        };
+
+        var update = { $set:{'details.laundryInstruction':laundryInstruction,'details.drycleanInstruction':drycleanInstruction}};
+
+        Order.update(query, update, callback);
+    }
 
 };

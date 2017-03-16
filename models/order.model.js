@@ -94,6 +94,12 @@ var orderSchema = Schema({
             "instruction":{
                 type:String
             }
+        },
+        "laundryInstruction":{
+            type:String
+        },
+        "drycleanInstruction":{
+            type:String
         }
     }
 
