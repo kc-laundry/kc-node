@@ -196,4 +196,40 @@ router.put('/:ID/notificationSettings', function(req, res, next) {
   });
 });
 
+router.get('/:ID/password/forgot', function (req,res, next ) {
+
+  var userID = req.params.ID;
+  userService.forgotPassword(userID,function (err, emailStatus) {
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:emailStatus
+    });
+
+  });
+
+});
+
+router.patch('/:ID/password/update',function (req,res, next ) {
+
+  var userID = req.params.ID;
+  var newPassword = req.body.newPassword;
+
+  userService.updatePassword(userID, newPassword ,function (err, passwordStatus) {
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:passwordStatus
+    });
+
+  });
+
+});
+
 module.exports = router;
