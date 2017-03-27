@@ -30,7 +30,18 @@ var customerAddress = new Schema({
     isActive:{
         type:Boolean
     }
+});
 
+var customerComplain = new Schema({
+  complain:{
+    type: String
+  },
+  date:{
+    type:Date
+  },
+  isActive:{
+    type:Boolean
+  }
 });
 
 var userSchema = Schema({
@@ -76,6 +87,7 @@ var userSchema = Schema({
     customerType:{
         type:String
     },
+    complains:[customerComplain],
     isActive:{
         type:Boolean
     }

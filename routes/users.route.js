@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:ID', function(req, res, next) {
     var userID = req.params.ID;
+    console.log(userID);
 
     userService.getUser(userID,function (err,user) {
         if(err){
@@ -115,7 +116,48 @@ router.patch('/:ID/address', function(req, res, next) {
         });
 });
 
+// Used for both complain & suggestions
+router.get('/:ID/complains', function(req, res, next) {
+
+  var userID = req.params.ID;
+  console.log(userID);
+  userService.getComplains(userID, function (err,complains) {
 
 
+
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:complains
+    });
+
+  });
+});
+
+router.patch('/:ID/complain', function(req, res, next) {
+
+  var userID = req.params.ID;
+
+  var complain = req.body.complain;
+  var dateTime = req.body.dateTime;
+
+  console.log(userID, complain, dateTime);
+
+  userService.addComplain(userID, complain, dateTime, function (err,orders) {
+
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:orders
+    });
+
+  });
+});
 
 module.exports = router;

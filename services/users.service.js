@@ -80,6 +80,26 @@ module.exports ={
         var projection = { _id:1, userName:1, 'contact.address':1 };
 
         User.findOne(query, projection, callback);
+    },
+
+    addComplain: function (userID, complain, dateTime, callback) {
+
+      User.findByIdAndUpdate(
+        userID,
+        {$push: {"complains": {complain: complain, dateTime: dateTime, isActive: true}}},
+        {safe: true, upsert: true, new : true},
+        callback
+      );
+
+    },
+
+    getComplains: function (userID, callback) {
+
+      console.log('getComplains():',userID);
+      var query = { _id: userID };
+      var projection = { _id:0, complains: 1 };
+
+      User.find(query, projection, callback);
     }
 
 
