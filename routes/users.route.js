@@ -3,6 +3,7 @@ var router = express.Router();
 var config = require('../config/dev.config.json');
 var utilService = require('../services/util.service');
 var userService = require('../services/users.service');
+var userNotifications = require('../services/userNotifications.service');
 var _ = require('lodash');
 
 router.get('/', function(req, res, next) {
@@ -155,6 +156,41 @@ router.patch('/:ID/complain', function(req, res, next) {
     res.json({
       href:req.hostname + ":" + config.port + req.originalUrl,
       data:orders
+    });
+
+  });
+});
+
+router.get('/:ID/notificationSettings', function(req, res, next) {
+
+  var userID = req.params.ID;
+  userNotifications.getSettings(userID, function (err,settings) {
+
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:settings
+    });
+
+  });
+});
+
+router.put('/:ID/notificationSettings', function(req, res, next) {
+
+  var userID = req.params.ID;
+  var settings = req.body.settings;
+  userNotifications.setSettings(userID, settings, function (err,settings) {
+
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:settings
     });
 
   });
