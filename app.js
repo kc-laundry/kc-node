@@ -6,6 +6,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var passport = require('passport');
+var flash    = require('connect-flash');
+
+var session = require('express-session');
+
+var kcAuth = require('./auth/middleware');
+var config = require('./config/dev.config.json');
 var db = require('./db/db');
 var index = require('./routes/index.route');
 var users = require('./routes/users.route');
@@ -44,8 +51,16 @@ app.use(cookieParser());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({ secret: 'kclaundrylaundrykclaundry' })); // session secret
+app.set('secret',config.secrets.session);
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use('/', index);
+app.use('/api/v1/auth', require('./auth'));
+
+app.use(kcAuth());
 app.use('/api/v1/orders', orders);
 app.use('/api/v1/users', users);
 app.use('/api/v1/laundryItems', laundryItems);

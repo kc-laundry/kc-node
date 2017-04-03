@@ -10,6 +10,8 @@ var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , ObjectId = Schema.Types.ObjectId;
 
+var utilService = require('../services/util.service');
+
 //////////////////////////
 // Schema
 //////////////////////////
@@ -90,9 +92,38 @@ var userSchema = Schema({
     complains:[customerComplain],
     isActive:{
         type:Boolean
+    },
+    provider:{
+      type:String
+    },
+    facebook: {
+      displayName:{
+        type:String
+      },
+      email :{
+        type:String
+      },
+      userName :{
+        type:String
+      },
+      accessToken: {
+        type:String
+      } ,
+      isActive:{
+        type:Boolean
+      },
+      detail:{
+        type:String
+      }
     }
 
 });
+
+userSchema.methods = {
+  authenticate: function(plainText) {
+    return utilService.encrypt(plainText) === this.password;
+  }
+};
 
 
 //////////////////////////
