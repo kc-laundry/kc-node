@@ -5,14 +5,17 @@ var userService = require('../services/users.service');
 var _ = require('lodash');
 
 router.post('/', function(req, res, next) {
-
-  var userName = req.body.username;
+  
+  var userName = req.body.username ;
   var password = req.body.password;
   var contact = {};
 
   contact.phone1 = req.body.contact.phone1;
   contact.email1 = req.body.contact.email1;
   var dob = req.body.dob;
+
+  var firstName = req.body.firstName ;
+  var lastName = req.body.lastName ;
 
   // Initialize customer to Bronze membership
   var customerLevel = "B"; //B : Bronze, S: Silver, G: Gold, P:Platinum
@@ -24,6 +27,8 @@ router.post('/', function(req, res, next) {
   var isActive = true;
 
   userService.saveUser(
+    firstName,
+    lastName,
     userName,
     password,
     contact,
