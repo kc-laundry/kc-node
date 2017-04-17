@@ -43,7 +43,7 @@ module.exports ={
             status:1,
             expectedDeliveryDate:1
         };
-        Order.findOne(query, projection, callback);
+        Order.find(query, projection, callback);
     },
 
     // //////////////////
