@@ -213,6 +213,23 @@ router.get('/:ID/password/forgot', function (req,res, next ) {
 
 });
 
+router.post('/password/forgot', function (req,res, next ) {
+
+  var emailID = req.body.emailID;
+  userService.forgotPasswordRecoverByEmail(emailID,function (err, emailStatus) {
+    // if(err){
+    //   throw err;
+    // }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:emailStatus || err
+    });
+
+  });
+
+});
+
 router.patch('/:ID/password/update',function (req,res, next ) {
 
   var userID = req.params.ID;
