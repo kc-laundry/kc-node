@@ -148,6 +148,43 @@ module.exports ={
         {$set: {"password": encrptedPassword }},
         callback
       );
-    }
+    },
 
+    getUserProfile: function (userID, callback) {
+
+      var query = { _id: userID };
+      var projection = { _id:1,
+                          firstName: 1 ,
+                          middleName:1,
+                          lastName:1 ,
+                          'contact.phone1':1,
+                          'contact.phone2':1,
+                          'contact.email1':1,
+                          currentCity:1,
+                          currentCountry:1
+                      };
+
+      User.find(query, projection, callback);
+
+    },
+
+    setUserProfile: function (userID, firstName, middleName, lastName, phone1, phone2, email1, currentCity, currentCountry, callback) {
+
+      User.findByIdAndUpdate(
+        userID,
+        {$set: {
+          firstName: firstName ,
+          middleName: middleName,
+          lastName: lastName ,
+          'contact.phone1': phone1,
+          'contact.phone2': phone2,
+          'contact.email1': email1,
+          currentCity: currentCity,
+          currentCountry: currentCountry
+
+        }},
+        callback
+      );
+
+    }
 };

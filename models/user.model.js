@@ -65,6 +65,12 @@ var userSchema = Schema({
     facebookName:{
         type:String
     },
+    currentCity:{
+        type:String
+    },
+    currentCountry:{
+      type:String
+    },
     contact:{
         phone1:{
             type:String

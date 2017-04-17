@@ -232,4 +232,55 @@ router.patch('/:ID/password/update',function (req,res, next ) {
 
 });
 
+router.get('/:ID/profile', function (req,res, next) {
+  var userID = req.params.ID;
+  userService.getUserProfile(userID, function (err,settings) {
+
+    if(err){
+      throw err;
+    }
+
+    res.json({
+      href:req.hostname + ":" + config.port + req.originalUrl,
+      data:settings
+    });
+
+  });
+});
+
+router.put('/:ID/profile', function (req,res, next) {
+  var userID = req.params.ID;
+
+  var firstName = req.body.firstName;
+  var middleName = req.body.middleName;
+  var lastName = req.body.lastName;
+  var phone1 = req.body.contact.phone1;
+  var phone2 = req.body.contact.phone2;
+  var email1 = req.body.contact.email1;
+  var currentCity = req.body.currentCity;
+  var currentCountry = req.body.currentCountry;
+
+  userService.setUserProfile( userID,
+                              firstName,
+                              middleName,
+                              lastName,
+                              phone1,
+                              phone2,
+                              email1,
+                              currentCity,
+                              currentCountry, function (err,settings) {
+
+                                                    if(err){
+                                                      throw err;
+                                                    }
+
+                                                    res.json({
+                                                      href:req.hostname + ":" + config.port + req.originalUrl,
+                                                      data:settings
+                                                    });
+
+                                              });
+
+});
+
 module.exports = router;
