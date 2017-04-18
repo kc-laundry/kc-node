@@ -75,9 +75,11 @@ router.get('/user/:userID/', function(req, res, next) {
 
 });
 
-router.get('/pregen/order',function (req,res,next) {
+router.get('/pregen/order/user/:userID',function (req,res,next) {
 
-    orderService.preGenerateOrder(function (err,pregeneratedOrder) {
+    var userID = req.params.userID;
+
+    orderService.preGenerateOrder(userID, function (err,pregeneratedOrder) {
         if(err){
             throw err;
         }

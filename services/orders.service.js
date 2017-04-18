@@ -61,10 +61,13 @@ module.exports ={
     saveOrder : function (callback, limit) {
 
     },
-    preGenerateOrder : function (callback) {
+    preGenerateOrder : function (userID, callback) {
 
         var query = {
             "status" : [],
+            "userID" : userID,
+            "workerID" : null,
+            "vendorID" : null,
             "expectedDeliveryDate" : moment().utc().add('days',3),
             "totalAmount" : 2,
             "paidAmount" : 0,
