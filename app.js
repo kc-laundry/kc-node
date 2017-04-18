@@ -17,6 +17,7 @@ var db = require('./db/db');
 var index = require('./routes/index.route');
 var users = require('./routes/users.route');
 var signup = require('./routes/signup.route');
+var password = require('./routes/password.route');
 var orders = require('./routes/orders.route');
 var laundryItems = require('./routes/laundry-items.route');
 var appVersion = require('./routes/app-version.route');
@@ -61,6 +62,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/', index);
 app.use('/api/v1/user/signup', signup);
 app.use('/api/v1/auth', require('./auth'));
+app.use('/api/v1/user/password', password);
 
 app.use(kcAuth());
 app.use('/api/v1/orders', orders);

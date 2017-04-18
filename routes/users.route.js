@@ -54,46 +54,6 @@ router.get('/:ID/addresses', function(req, res, next) {
     })
 });
 
-router.post('/', function(req, res, next) {
-
-    var userName = req.body.username;
-    var password = req.body.password;
-    var contact = {};
-
-    contact.phone1 = req.body.contact.phone1;
-    contact.email1 = req.body.contact.email1;
-    var dob = req.body.dob;
-
-    // Initialize customer to Bronze membership
-    var customerLevel = "B"; //B : Bronze, S: Silver, G: Gold, P:Platinum
-
-    //Initialize customer type to individual
-    //TODO: This needs to be redone when we launch app to hotels/groups
-    var customerType = "I"; //I: Individual, G: Group, H: Hotel etc
-
-    var isActive = true;
-
-    userService.saveUser(
-                        userName,
-                        password,
-                        contact,
-                        dob,
-                        customerLevel,
-                        customerType,
-                        function (err,orders) {
-
-                            if(err){
-                                throw err;
-                            }
-
-                            res.json({
-                                href:req.hostname + ":" + config.port + req.originalUrl,
-                                data:orders
-                            });
-
-                         });
-});
-
 router.patch('/:ID/address', function(req, res, next) {
 
     var userID = req.params.ID;
@@ -196,6 +156,7 @@ router.put('/:ID/notificationSettings', function(req, res, next) {
   });
 });
 
+//TODO:This is deprecated. Remove it.
 router.get('/:ID/password/forgot', function (req,res, next ) {
 
   var userID = req.params.ID;
@@ -213,6 +174,7 @@ router.get('/:ID/password/forgot', function (req,res, next ) {
 
 });
 
+//TODO:This is deprecated. Remove it. This has been to password.route.js
 router.post('/password/forgot', function (req,res, next ) {
 
   var emailID = req.body.emailID;
