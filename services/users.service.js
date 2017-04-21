@@ -28,6 +28,11 @@ module.exports ={
         User.findOne(query,callback);
     },
 
+    getUserByUsername : function (userName,callback) {
+      var query = { userName: userName};
+      User.findOne(query,callback);
+    },
+
     saveUser : function (firstName, lastName,
                           username, password,
                           contact, dob,

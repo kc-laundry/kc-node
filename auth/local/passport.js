@@ -13,23 +13,7 @@ exports.setup  = function (User, config) {
     function(email, password, done) {
     var query;
 
-    //TODO(anas):  Hacky bullshit - Use facebook strategy instead
-    ///////////////////////////////////////////////////////////////
-    var platform;
-    var userSocialInfo = password.split('~~~~~~');
-
-    if(userSocialInfo.length > 1){
-
-      platform = userSocialInfo[1].split('=')[1];
-      password = email + platform;
-      query = { 'userName': email.toLowerCase() }
-
-    } else {
-
-      query = { 'contact.email1': email.toLowerCase() };
-    }
-
-    console.log(password);
+      query = { 'userName': email.toLowerCase() };
 
       User.findOne(query,
                       function(err, user) {
