@@ -58,30 +58,51 @@ router.post('/', function(req, res, next) {
 
   }
 
+  userService.getUserByUsername(userName, function (err, result) {
+                if(err){
+                  throw err;
+                }
 
-  userService.saveUser(
-    firstName,
-    lastName,
-    userName,
-    password,
-    contact,
-    dob,
-    customerLevel,
-    customerType,
-    isSocialSignUp,
-    social,
-    function (err,orders) {
+                console.log(result);
 
-      if(err){
-        throw err;
-      }
+                if(result){
+                  res.json({
+                    href:req.hostname + ":" + config.port + req.originalUrl,
+                    data:null,
+                    error:"Username already exist."
+                  });
 
-      res.json({
-        href:req.hostname + ":" + config.port + req.originalUrl,
-        data:orders
-      });
+                } else{
 
-    });
+                  userService.saveUser(
+                    firstName,
+                    lastName,
+                    userName,
+                    password,
+                    contact,
+                    dob,
+                    customerLevel,
+                    customerType,
+                    isSocialSignUp,
+                    social,
+                    function (err,orders) {
+
+                      if(err){
+                        throw err;
+                      }
+
+                      res.json({
+                        href:req.hostname + ":" + config.port + req.originalUrl,
+                        data:orders
+                      });
+
+                    });
+
+                }
+
+  });
+
+
 });
 
 module.exports = router;
