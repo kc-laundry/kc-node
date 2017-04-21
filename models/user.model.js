@@ -62,9 +62,6 @@ var userSchema = Schema({
     password:{
         type:String
     },
-    facebookName:{
-        type:String
-    },
     currentCity:{
         type:String
     },
@@ -121,7 +118,17 @@ var userSchema = Schema({
       detail:{
         type:String
       }
+    },
+    isSocialSignup: { type:Boolean } ,
+    social:{
+      platform:{ type:String } ,
+      socialLink:{ type:String } ,
+      name:{ type:String } ,
+      gender:{ type:String } ,
+      currentCity: { type:String } ,
+      currentCountry: { type:String }
     }
+    
 
 });
 
