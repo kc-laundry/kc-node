@@ -23,5 +23,5 @@ var orderStatusSchema = Schema({
 // Export Schema
 //////////////////////////
 
-var OrderSchema = mongoose.model('OrderSchema',orderStatusSchema,'orderStatus');
-module.exports.OrderSchema = OrderSchema;
+var OrderStatus = mongoose.model('OrderSchema',orderStatusSchema,'orderStatusTypes');
+module.exports.OrderStatus = OrderStatus;

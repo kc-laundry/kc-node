@@ -12,6 +12,7 @@ var mongoose  = require('mongoose');
 var config = require('../config/dev.config.json');
 var utilService = require('../services/util.service');
 var orderService = require('../services/orders.service');
+var orderStatusList = require('../services/order-status-list.service');
 var _ = require('lodash');
 
 
@@ -34,6 +35,22 @@ router.get('/', function(req, res, next) {
             href:req.hostname + ":" + config.port + req.originalUrl,
             data:orders
         })
+
+    });
+
+});
+
+// Gets a static list of order status to be cached on front-end
+router.get('/statuslist', function (req, res, next) {
+
+    orderStatusList.getStatusList(function (err, statusList) {
+      if(err){
+          throw err;
+      }
+      res.json({
+        href:req.hostname + ":" + config.port + req.originalUrl,
+        data:statusList
+      })
 
     });
 
