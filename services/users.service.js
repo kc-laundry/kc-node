@@ -28,14 +28,19 @@ module.exports ={
         User.findOne(query,callback);
     },
 
-    saveUser : function (firstName, lastName, username, password, contact, dob, customerLevel,customerType, callback) {
+    saveUser : function (firstName, lastName,
+                          username, password,
+                          contact, dob,
+                          customerLevel,customerType,
+                          isSocialSignup,
+                          social,
+                          callback) {
 
        var query = {
             userName: username,
             firstName: firstName,
             lastName: lastName,
             password: utilService.encrypt(password),
-            facebookName:"",
             contact:{
                 phone1:contact.phone1,
                 phone2:"",
@@ -46,6 +51,8 @@ module.exports ={
             dob:dob,
             customerLevel:customerLevel,
             customerType:customerType,
+            isSocialSignup: isSocialSignup,
+            social:social,
             isActive:true
         };
 

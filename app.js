@@ -60,11 +60,17 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use('/', index);
+
+// Sign Up
 app.use('/api/v1/user/signup', signup);
+// Sign In
 app.use('/api/v1/auth', require('./auth'));
+// Password Recovery
 app.use('/api/v1/user/password', password);
 
 app.use(kcAuth());
+
+// All secure APIs
 app.use('/api/v1/orders', orders);
 app.use('/api/v1/users', users);
 app.use('/api/v1/laundryItems', laundryItems);
